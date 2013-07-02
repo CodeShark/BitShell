@@ -133,6 +133,15 @@ result_t bitcoind_getbalance(bool bHelp, const params_t& params)
     return exec_bitcoind("getbalance", params);
 }
 
+result_t bitcoind_getnewaddress(bool bHelp, const params_t& params)
+{
+    if (bHelp ||  params.size() < 0 || params.size() > 1 ) {
+        return "getnewaddress [account] - Returns a new Bitcoin address for receiving payments.  If [account] is specified (recommended), it is added to the address book so payments received with the address will be credited to [account].";
+    }
+
+    return exec_bitcoind("getnewaddress", params);
+}
+
 result_t bitcoind_getrawtransaction(bool bHelp, const params_t& params)
 {
     if (bHelp ||  params.size() < 1 || params.size() > 2 ) {
@@ -158,5 +167,32 @@ result_t bitcoind_getreceivedbyaddress(bool bHelp, const params_t& params)
     }
 
     return exec_bitcoind("getreceivedbyaddress", params);
+}
+
+result_t bitcoind_listreceivedbyaddress(bool bHelp, const params_t& params)
+{
+    if (bHelp ||  params.size() < 0 || params.size() > 2 ) {
+        return "listreceivedbyaddress [minconf=1] [includeempty=false] - [minconf] is the minimum number of confirmations before payments are included. [includeempty] whether to include addresses that haven't received any payments.";
+    }
+
+    return exec_bitcoind("listreceivedbyaddress", params);
+}
+
+result_t bitcoind_sendtoaddress(bool bHelp, const params_t& params)
+{
+    if (bHelp ||  params.size() < 2 || params.size() > 4 ) {
+        return "sendtoaddress <bitcoinaddress> <amount> [comment] [comment-to] - <amount> is a real and is rounded to the nearest 0.00000001, requires wallet passphrase to be set with walletpassphrase first";
+    }
+
+    return exec_bitcoind("sendtoaddress", params);
+}
+
+result_t bitcoind_walletpassphrase(bool bHelp, const params_t& params)
+{
+    if (bHelp ||  params.size() != 2 ) {
+        return "walletpassphrase <passphrase> <timeout> - Stores the wallet decryption key in memory for <timeout> seconds.";
+    }
+
+    return exec_bitcoind("walletpassphrase", params);
 }
 

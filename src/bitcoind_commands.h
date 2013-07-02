@@ -35,8 +35,12 @@ result_t bitcoind_getinfo(bool bHelp, const params_t& params);
 result_t bitcoind_getblock(bool bHelp, const params_t& params);
 result_t bitcoind_getblockcount(bool bHelp, const params_t& params);
 result_t bitcoind_getbalance(bool bHelp, const params_t& params);
+result_t bitcoind_getnewaddress(bool bHelp, const params_t& params);
 result_t bitcoind_getrawtransaction(bool bHelp, const params_t& params);
 result_t bitcoind_getreceivedbyaccount(bool bHelp, const params_t& params);
 result_t bitcoind_getreceivedbyaddress(bool bHelp, const params_t& params);
+result_t bitcoind_listreceivedbyaddress(bool bHelp, const params_t& params);
+result_t bitcoind_sendtoaddress(bool bHelp, const params_t& params);
+result_t bitcoind_walletpassphrase(bool bHelp, const params_t& params);
 
 #endif // BITCOIND_COMMANDS_H

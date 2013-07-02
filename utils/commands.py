@@ -60,6 +60,13 @@ funcs = [
         'help' : 'If [account] is not specified, returns the server\'s total available balance. If [account] is specified, returns the balance in the account.',
     },
     {
+        'name' : 'getnewaddress',
+        'min' : 0,
+        'max' : 1,
+        'params' : '[account]',
+        'help' : 'Returns a new Bitcoin address for receiving payments.  If [account] is specified (recommended), it is added to the address book so payments received with the address will be credited to [account].',
+    },
+    {
         'name' : 'getrawtransaction',
         'min' : 1,
         'max' : 2,
@@ -79,6 +86,27 @@ funcs = [
         'max' : 2,
         'params' : '<bitcoinaddress> [minconf=1]',
         'help' : 'Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations.',
+    },
+    {
+        'name' : 'listreceivedbyaddress',
+        'min' : 0,
+        'max' : 2,
+        'params' : '[minconf=1] [includeempty=false]',
+        'help' : '[minconf] is the minimum number of confirmations before payments are included. [includeempty] whether to include addresses that haven\'t received any payments.',
+    },
+    {
+        'name' : 'sendtoaddress',
+        'min' : 2,
+        'max' : 4,
+        'params' : '<bitcoinaddress> <amount> [comment] [comment-to]',
+        'help' : '<amount> is a real and is rounded to the nearest 0.00000001, requires wallet passphrase to be set with walletpassphrase first',
+    },
+    {
+        'name' : 'walletpassphrase',
+        'min' : 2,
+        'max' : 2,
+        'params' : '<passphrase> <timeout>',
+        'help' : 'Stores the wallet decryption key in memory for <timeout> seconds.',
     },
 ]
 

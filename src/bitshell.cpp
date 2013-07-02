@@ -39,8 +39,12 @@ int main(int argc, char** argv)
     addCommand("getblock", &bitcoind_getblock);
     addCommand("getblockcount", &bitcoind_getblockcount);
     addCommand("getbalance", &bitcoind_getbalance);
+    addCommand("getnewaddress", &bitcoind_getnewaddress);
     addCommand("getrawtransaction", &bitcoind_getrawtransaction);
     addCommand("getreceivedbyaccount", &bitcoind_getreceivedbyaccount);
     addCommand("getreceivedbyaddress", &bitcoind_getreceivedbyaddress);
+    addCommand("listreceivedbyaddress", &bitcoind_listreceivedbyaddress);
+    addCommand("sendtoaddress", &bitcoind_sendtoaddress);
+    addCommand("walletpassphrase", &bitcoind_walletpassphrase);
     return startInterpreter(argc, argv);
 }
