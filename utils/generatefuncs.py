@@ -46,7 +46,7 @@ funcs = [
         'min' : 0,
         'max' : 2,
         'params' : '[account] [minconf=1]',
-        'help' : r"If [account] is not specified, returns the server's total available balance.\nIf [account] is specified, returns the balance in the account.",
+        'help' : 'If [account] is not specified, returns the server\'s total available balance. If [account] is specified, returns the balance in the account.',
     },
 ]
 
@@ -69,7 +69,7 @@ for func in funcs:
         print r'params.size() < %d || params.size() > %d' % (func['min'], func['max']),
 
     print r') {'
-    print r'        return "%s %s\n%s";' % (func['name'], func['params'], func['help'])
+    print r'        return "%s %s - %s";' % (func['name'], func['params'], func['help'])
     print r'    }'
     print
     print r'    return exec_bitcoind("%s", params);' % func['name']
