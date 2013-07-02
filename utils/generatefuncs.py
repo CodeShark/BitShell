@@ -78,7 +78,7 @@ for func in funcs:
 
 # main function
 print '// main function - belongs in bitshell.cpp'
-print r'int main(int argc, char** argc)'
+print r'int main(int argc, char** argv)'
 print r'{'
 print r'    initCommands();'
 for func in funcs:
