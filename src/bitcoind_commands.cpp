@@ -39,6 +39,7 @@ result_t exec_bitcoind(const string& method, const params_t& params)
     for (size_t i = 0; i < params.size(); i++) {
         cmd << " " << params[i];
     }
+    cmd << " 2>&1";    
 
     FILE* pipe = popen(cmd.str().c_str(), "r");
     if (!pipe) {
