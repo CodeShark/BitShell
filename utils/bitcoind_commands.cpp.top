@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// bitcoind_commands.h
+// bitcoind_commands.cpp
 //
 // Copyright (c) 2013 Eric Lombrozo
 //
@@ -22,21 +22,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef BITCOIND_COMMANDS_H
+#include "bitcoind_commands.h"
 
-#include <command_interpreter.h>
+#include <stdio.h>
+#include <sstream>
+#include <stdexcept>
 
-// Declarations - belong in bitcoind_commands.h
-result_t bitcoind_addmultisigaddress(bool bHelp, const params_t& params);
-result_t bitcoind_addnode(bool bHelp, const params_t& params);
-result_t bitcoind_backupwallet(bool bHelp, const params_t& params);
-result_t bitcoind_createmultisig(bool bHelp, const params_t& params);
-result_t bitcoind_getinfo(bool bHelp, const params_t& params);
-result_t bitcoind_getblock(bool bHelp, const params_t& params);
-result_t bitcoind_getblockcount(bool bHelp, const params_t& params);
-result_t bitcoind_getbalance(bool bHelp, const params_t& params);
-result_t bitcoind_getrawtransaction(bool bHelp, const params_t& params);
-result_t bitcoind_getreceivedbyaccount(bool bHelp, const params_t& params);
-result_t bitcoind_getreceivedbyaddress(bool bHelp, const params_t& params);
+#define BITCOIND_SHELL_CMD     "bitcoind"
 
-#endif // BITCOIND_COMMANDS_H
+using namespace std;
+
+result_t exec_bitcoind(const string& method, const params_t& params)
+{
+    stringstream cmd;
+    cmd << BITCOIND_SHELL_CMD << " " << method;
+    for (size_t i = 0; i < params.size(); i++) {
+        cmd << " " << params[i];
+    }
+
+    FILE* pipe = popen(cmd.str().c_str(), "r");
+    if (!pipe) {
+        throw runtime_error("Error opening pipe.");
+    }
+
+    char buffer[1025];
+    stringstream out;
+    while (!feof(pipe)) {
+        if (fgets(buffer, 1024, pipe) != NULL) {
+            out << buffer;
+        }
+    }
+
+    if (pclose(pipe) == -1) {
+        throw runtime_error("Error closing pipe.");
+    }
+
+    return out.str();
+}
+

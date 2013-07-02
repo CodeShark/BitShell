@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// bitcoind_commands.h
+// bitshell.cpp
 //
 // Copyright (c) 2013 Eric Lombrozo
 //
@@ -22,21 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef BITCOIND_COMMANDS_H
+#include "bitcoind_commands.h"
 
 #include <command_interpreter.h>
+#include <iostream>
 
-// Declarations - belong in bitcoind_commands.h
-result_t bitcoind_addmultisigaddress(bool bHelp, const params_t& params);
-result_t bitcoind_addnode(bool bHelp, const params_t& params);
-result_t bitcoind_backupwallet(bool bHelp, const params_t& params);
-result_t bitcoind_createmultisig(bool bHelp, const params_t& params);
-result_t bitcoind_getinfo(bool bHelp, const params_t& params);
-result_t bitcoind_getblock(bool bHelp, const params_t& params);
-result_t bitcoind_getblockcount(bool bHelp, const params_t& params);
-result_t bitcoind_getbalance(bool bHelp, const params_t& params);
-result_t bitcoind_getrawtransaction(bool bHelp, const params_t& params);
-result_t bitcoind_getreceivedbyaccount(bool bHelp, const params_t& params);
-result_t bitcoind_getreceivedbyaddress(bool bHelp, const params_t& params);
-
-#endif // BITCOIND_COMMANDS_H

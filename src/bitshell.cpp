@@ -27,7 +27,7 @@
 #include <command_interpreter.h>
 #include <iostream>
 
-// main function
+// main function - belongs in bitshell.cpp
 int main(int argc, char** argv)
 {
     initCommands();
@@ -36,7 +36,11 @@ int main(int argc, char** argv)
     addCommand("backupwallet", &bitcoind_backupwallet);
     addCommand("createmultisig", &bitcoind_createmultisig);
     addCommand("getinfo", &bitcoind_getinfo);
+    addCommand("getblock", &bitcoind_getblock);
     addCommand("getblockcount", &bitcoind_getblockcount);
     addCommand("getbalance", &bitcoind_getbalance);
+    addCommand("getrawtransaction", &bitcoind_getrawtransaction);
+    addCommand("getreceivedbyaccount", &bitcoind_getreceivedbyaccount);
+    addCommand("getreceivedbyaddress", &bitcoind_getreceivedbyaddress);
     return startInterpreter(argc, argv);
 }

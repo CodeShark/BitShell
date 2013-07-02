@@ -1,0 +1,4 @@
+#!/bin/bash
+{ cat bitshell.cpp.top && ./commands.py --main; } > ../src/bitshell.cpp
+{ cat bitcoind_commands.h.top && ./commands.py --declarations && cat bitcoind_commands.h.bottom; } > ../src/bitcoind_commands.h
+{ cat bitcoind_commands.cpp.top && ./commands.py --definitions; } > ../src/bitcoind_commands.cpp

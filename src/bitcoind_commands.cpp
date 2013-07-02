@@ -60,7 +60,7 @@ result_t exec_bitcoind(const string& method, const params_t& params)
     return out.str();
 }
 
-// Definitions
+// Definitions - belong in bitcoind_commands.cpp
 result_t bitcoind_addmultisigaddress(bool bHelp, const params_t& params)
 {
     if (bHelp ||  params.size() < 2 || params.size() > 3 ) {
@@ -100,16 +100,25 @@ result_t bitcoind_createmultisig(bool bHelp, const params_t& params)
 result_t bitcoind_getinfo(bool bHelp, const params_t& params)
 {
     if (bHelp ||  params.size() != 0 ) {
-        return "getinfo  - Returns an object containing various state info.";
+        return "getinfo - Returns an object containing various state info.";
     }
 
     return exec_bitcoind("getinfo", params);
 }
 
+result_t bitcoind_getblock(bool bHelp, const params_t& params)
+{
+    if (bHelp ||  params.size() < 1 || params.size() > 2 ) {
+        return "getblock <hash> [verbose=true] - If verbose is false, returns a string that is serialized, hex-encoded data for block <hash>. If verbose is true, returns an Object with information about block <hash>.";
+    }
+
+    return exec_bitcoind("getblock", params);
+}
+
 result_t bitcoind_getblockcount(bool bHelp, const params_t& params)
 {
     if (bHelp ||  params.size() != 0 ) {
-        return "getblockcount  - Returns the number of blocks in the longest block chain.";
+        return "getblockcount - Returns the number of blocks in the longest block chain.";
     }
 
     return exec_bitcoind("getblockcount", params);
@@ -122,5 +131,32 @@ result_t bitcoind_getbalance(bool bHelp, const params_t& params)
     }
 
     return exec_bitcoind("getbalance", params);
+}
+
+result_t bitcoind_getrawtransaction(bool bHelp, const params_t& params)
+{
+    if (bHelp ||  params.size() < 1 || params.size() > 2 ) {
+        return "getrawtransaction <txin> [verbose=0] - If verbose=0, returns a string that is serialized, hex-encoded data for <txid>. If verbose is non-zero, returns an Object with information about <txid>.";
+    }
+
+    return exec_bitcoind("getrawtransaction", params);
+}
+
+result_t bitcoind_getreceivedbyaccount(bool bHelp, const params_t& params)
+{
+    if (bHelp ||  params.size() < 1 || params.size() > 2 ) {
+        return "getreceivedbyaccount <account> [minconf=1] - Returns the total amount received by addresses with <account> in transactions with at least [minconf] confirmations.";
+    }
+
+    return exec_bitcoind("getreceivedbyaccount", params);
+}
+
+result_t bitcoind_getreceivedbyaddress(bool bHelp, const params_t& params)
+{
+    if (bHelp ||  params.size() < 1 || params.size() > 2 ) {
+        return "getreceivedbyaddress <bitcoinaddress> [minconf=1] - Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations.";
+    }
+
+    return exec_bitcoind("getreceivedbyaddress", params);
 }
 
