@@ -26,6 +26,12 @@
 
 #include <command_interpreter.h>
 
-result_t bitcoind_getinfo(bool, const params_t&);
+result_t bitcoind_addmultisigaddress(bool bHelp, const params_t& params);
+result_t bitcoind_addnode(bool bHelp, const params_t& params);
+result_t bitcoind_backupwallet(bool bHelp, const params_t& params);
+result_t bitcoind_createmultisig(bool bHelp, const params_t& params);
+result_t bitcoind_getinfo(bool bHelp, const params_t& params);
+result_t bitcoind_getblockcount(bool bHelp, const params_t& params);
+result_t bitcoind_getbalance(bool bHelp, const params_t& params);
 
 #endif // BITCOIND_COMMANDS_H

@@ -27,13 +27,16 @@
 #include <command_interpreter.h>
 #include <iostream>
 
-int main(int argc, char** argv)
+// main function
+int main(int argc, char** argc)
 {
     initCommands();
+    addCommand("addmultisigaddress", &bitcoind_addmultisigaddress);
+    addCommand("addnode", &bitcoind_addnode);
+    addCommand("backupwallet", &bitcoind_backupwallet);
+    addCommand("createmultisig", &bitcoind_createmultisig);
     addCommand("getinfo", &bitcoind_getinfo);
+    addCommand("getblockcount", &bitcoind_getblockcount);
+    addCommand("getbalance", &bitcoind_getbalance);
     return startInterpreter(argc, argv);
-/*
-    params_t params;
-    std::cout << bitcoind_getinfo(false, params) << std::endl;
-    return 0; */
 }
