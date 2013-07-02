@@ -1,3 +1,7 @@
+#!/usr/bin/python
+
+import sys
+
 funcs = [
     {
         'name' : 'addmultisigaddress',
@@ -35,6 +39,13 @@ funcs = [
         'help' : 'Returns an object containing various state info.',
     },
     {
+        'name' : 'getblock',
+        'min' : 1,
+        'max' : 2,
+        'params' : '<hash> [verbose=true]',
+        'help' : 'If verbose is false, returns a string that is serialized, hex-encoded data for block <hash>. If verbose is true, returns an Object with information about block <hash>.',
+    },
+    {
         'name' : 'getblockcount',
         'min' : 0,
         'max' : 0,
@@ -48,40 +59,66 @@ funcs = [
         'params' : '[account] [minconf=1]',
         'help' : 'If [account] is not specified, returns the server\'s total available balance. If [account] is specified, returns the balance in the account.',
     },
+    {
+        'name' : 'getrawtransaction',
+        'min' : 1,
+        'max' : 2,
+        'params' : '<txin> [verbose=0]',
+        'help' : 'If verbose=0, returns a string that is serialized, hex-encoded data for <txid>. If verbose is non-zero, returns an Object with information about <txid>.',
+    },
+    {
+        'name' : 'getreceivedbyaccount',
+        'min' : 1,
+        'max' : 2,
+        'params' : '<account> [minconf=1]',
+        'help' : 'Returns the total amount received by addresses with <account> in transactions with at least [minconf] confirmations.',
+    },
+    {
+        'name' : 'getreceivedbyaddress',
+        'min' : 1,
+        'max' : 2,
+        'params' : '<bitcoinaddress> [minconf=1]',
+        'help' : 'Returns the total amount received by <bitcoinaddress> in transactions with at least [minconf] confirmations.',
+    },
 ]
 
-# declarations
-print '// Declarations - belong in bitcoind_commands.h'
-for func in funcs:
-    print r'result_t bitcoind_%s(bool bHelp, const params_t& params);' % func['name']
+if len(sys.argv) == 1 or sys.argv[1] == '--declarations':
+    # declarations
+    print '// Declarations - belong in bitcoind_commands.h'
+    for func in funcs:
+        print r'result_t bitcoind_%s(bool bHelp, const params_t& params);' % func['name']
+    print
 
-print
+if len(sys.argv) == 1 or sys.argv[1] == '--definitions':
+    # definitions
+    print '// Definitions - belong in bitcoind_commands.cpp'
+    for func in funcs:
+        print r'result_t bitcoind_%s(bool bHelp, const params_t& params)' % func['name']
+        print r'{'
+        print r'    if (bHelp || ',
+        if func['min'] == func['max']:
+            print r'params.size() != %d' % func['min'],
+        else:
+            print r'params.size() < %d || params.size() > %d' % (func['min'], func['max']),
 
-# definitions
-print '// Definitions - belong in bitcoind_commands.cpp'
-for func in funcs:
-    print r'result_t bitcoind_%s(bool bHelp, const params_t& params)' % func['name']
+        print r') {'
+        print r'        return "%s' % func['name'],
+        if func['max'] > 0:
+            print func['params'],
+        print '- %s";' % func['help']
+        print r'    }'
+        print
+        print r'    return exec_bitcoind("%s", params);' % func['name']
+        print r'}'
+        print
+
+if len(sys.argv) == 1 or sys.argv[1] == '--main':
+    # main function
+    print '// main function - belongs in bitshell.cpp'
+    print r'int main(int argc, char** argv)'
     print r'{'
-    print r'    if (bHelp || ',
-    if func['min'] == func['max']:
-        print r'params.size() != %d' % func['min'],
-    else:
-        print r'params.size() < %d || params.size() > %d' % (func['min'], func['max']),
-
-    print r') {'
-    print r'        return "%s %s - %s";' % (func['name'], func['params'], func['help'])
-    print r'    }'
-    print
-    print r'    return exec_bitcoind("%s", params);' % func['name']
+    print r'    initCommands();'
+    for func in funcs:
+        print r'    addCommand("%s", &bitcoind_%s);' % (func['name'], func['name'])
+    print r'    return startInterpreter(argc, argv);'
     print r'}'
-    print
-
-# main function
-print '// main function - belongs in bitshell.cpp'
-print r'int main(int argc, char** argv)'
-print r'{'
-print r'    initCommands();'
-for func in funcs:
-    print r'    addCommand("%s", &bitcoind_%s);' % (func['name'], func['name'])
-print r'    return startInterpreter(argc, argv);'
-print r'}'
